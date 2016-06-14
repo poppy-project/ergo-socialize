@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+  <title>Ergo watcher</title>
+</head>
+<body>
+
+<div class="main">
+  <div id="status"></div>
+  <strong class="fans-count"></strong>
+</div>
+
+<script>
+
+  function statusChangeCallback(response) {
+    if (response.status === 'connected') {
+      getFanCount();
+    } else if (response.status === 'not_authorized') {
+      document.getElementById('status').innerHTML = 'Please log into this app.';
+    } else {
+      FB.login(function(response) {
+        if (response.authResponse) {
+          getFanCount();
+        } else {
+          console.log('User cancelled login or did not fully authorize.');
+        }
+      });
+    }
+  }
+
+  function checkLoginState() {
+    FB.getLoginStatus(function(response) {
+      statusChangeCallback(response);
+    });
+  }
+
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId: '{{ fb_app_id }}',
+      cookie: true,
+      xfbml: false,
+      version: 'v2.6'
+    });
+
+    FB.getLoginStatus(function(response) {
+      statusChangeCallback(response);
+    });
+  };
+
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = '//connect.facebook.net/en_US/sdk.js';
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+
+  function getFanCount() {
+    FB.api('/1112099095496888?fields=fan_count', function(response) {
+      document.querySelector('.fans-count').innerHTML = response.fan_count;
+    });
+  }
+</script>
+
+</body>
+</html>
