@@ -5,7 +5,7 @@ from pymongo import MongoClient
 
 config.TW_CONSUMER_KEY
 auth = tweepy.OAuthHandler(config.TW_CONSUMER_KEY, config.TW_CONSUMER_SECRET)
-auth.set_access_token(config.TW_ACCESS_TOKEN, TW_ACCESS_TOKEN_SECRET)
+auth.set_access_token(config.TW_ACCESS_TOKEN, config.TW_ACCESS_TOKEN_SECRET)
 
 api = tweepy.API(auth)
 

@@ -1,6 +1,0 @@
-TW_CONSUMER_KEY = ''
-TW_CONSUMER_SECRET = ''
-TW_ACCESS_TOKEN = ''
-TW_ACCESS_TOKEN_SECRET = ''
-
-TW_STREAM_TERMS = ['#roboeduc16', 'ergojr', 'ergo-jr']

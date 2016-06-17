@@ -28,7 +28,8 @@ RUN pip install --upgrade pip
 ADD watcher /watcher
 
 WORKDIR /watcher
-ADD config.py .
+
+ADD config.py ./config.py
 
 RUN pip install -r requirements.txt
 
