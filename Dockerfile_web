@@ -1,0 +1,36 @@
+FROM debian:jessie
+MAINTAINER Damien Caselli <damien.caselli@inria.fr>
+
+LABEL Description="This image holds ergo jr social watcher ui" Vendor="Inria" Version="0.1.0"
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update
+RUN apt-get -y install \
+  apt-utils \
+  apt-transport-https \
+  ca-certificates \
+  build-essential
+
+RUN apt-get -y install \
+  curl \
+  python-dev \
+  python-distribute
+
+ADD https://bootstrap.pypa.io/get-pip.py /tmp/get-pip.py
+RUN python /tmp/get-pip.py
+RUN pip install --upgrade pip
+
+#
+# Flask application
+#
+
+ADD ./web /web
+
+WORKDIR /web
+
+RUN pip install -r requirements.txt
+
+EXPOSE 5000
+
+CMD python app.py

@@ -1,0 +1,25 @@
+version: '2'
+
+services:
+  db:
+    image: mongo:latest
+    expose:
+      - "27017"
+    ports:
+      - "27017:27017"
+  watcher:
+    build:
+      context: .
+      dockerfile: Dockerfile_watcher
+    depends_on:
+      - db
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile_web
+    depends_on:
+      - db
+    expose:
+      - "5000"
+    ports:
+      - "5000:5000"

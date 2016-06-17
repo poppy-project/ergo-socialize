@@ -8,9 +8,33 @@
 <div class="main">
   <div id="status"></div>
   <strong class="fans-count"></strong>
+
+  <div class="tweets"></div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+
 <script>
+  var tweetsTimeout;
+
+  var fetchTweets = function fetchTweets() {
+    $.getJSON('/api/latest-tweets', function(response) {
+      var tweetsDOM = response.tweets.reduce(function(acc, tweet) {
+        return acc + '<h2>' + tweet.text + '</h2>';
+      }, '');
+
+      document.querySelector('.tweets').innerHTML = tweetsDOM;
+
+      tweetsTimeout = window.setTimeout(fetchTweets, 2000);
+    });
+  };
+
+  fetchTweets();
+</script>
+
+
+<script>
+  // Facebook stuff
 
   function statusChangeCallback(response) {
     if (response.status === 'connected') {
@@ -36,7 +60,7 @@
 
   window.fbAsyncInit = function() {
     FB.init({
-      appId: '{{ fb_app_id }}',
+      appId: '492992767564852',
       cookie: true,
       xfbml: false,
       version: 'v2.6'
